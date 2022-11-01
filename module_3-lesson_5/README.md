@@ -123,3 +123,25 @@ const account = {
   getTransactionTotal(type) {},
 };
 ```
+
+## Розшифровка функції 
+```js
+function findLongestWord(string) {
+  
+  // 1. split розбиває рядок по пробілу на масив слів
+  // 2. в тілі колбека reduce порівнюємо поточний елемент масива з результатом поверненим на попередній ітерації
+  const wordsArr = string.split(' ');
+  const longest = wordsArr.reduce(function(prev, item) {
+    if (prev.length > item.length) {
+      return prev
+    }
+    return item
+  });
+
+  return longest
+
+  // return string.split(' ').reduce((a, b) => (b.length > a.length) ? b : a);
+}
+
+let res = findLongestWord('Hello my name is longestone');
+```
