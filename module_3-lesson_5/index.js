@@ -256,9 +256,19 @@ function findLongestWord(string) {
 
   return longest
 
-  // return string.split(' ').reduce((a, b) => (b.length > a.length) ? b : a);
+  // return string.split(' ').reduce((a, b) => b.length > a.length ? b : a);
 }
 
-let res = findLongestWord('Hello my name is longestone');
+const string = 'Hello my name is longestone';
+let res = findLongestWord(string);
 
-debugger
+// Ось цей запис:
+string.split(' ').reduce((a, b) => b.length > a.length ? b : a); 
+
+// Ідентичний оцьому:
+string.split(' ').reduce(function(prev, item) {
+  if (prev.length > item.length) {
+    return prev
+  }
+  return item
+});
