@@ -32,7 +32,6 @@ this.balance, і onSuccess в іншому випадку.
 або дорівнює нулю, і onSuccess в іншому випадку.
 
 ```js
-// Рішення
 const TRANSACTION_LIMIT = 1000;
 
 const account = {
