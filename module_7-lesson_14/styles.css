@@ -1,0 +1,7 @@
+.todo .done {
+  background-color: aquamarine;
+}
+
+.gallery img {
+  width: 250px
+}

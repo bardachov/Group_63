@@ -86,3 +86,25 @@ document.addEventListener('DOMContentLoaded', e => {
 })
 
 
+const meatPriceRef = document.querySelector('#price');
+const serverRequestRef = document.querySelector('.server-amount');
+
+const debouncedInput = _.debounce(function(e) {
+  console.log('change event')
+  serverRequestRef.textContent = Number(serverRequestRef.textContent) + 1;
+}, 500, {})
+
+
+// 1. є якась функція
+// 2. вона дууууже часто викликається
+// 3. Треба викликати її тільки за необхідністью. Наприклда коли зікінчили ввод тексту в поле
+
+const inputEventHandler = () => {
+  // супер складна обчислювальна логіка. 1 секунда
+  console.log('я довго рахую. Забиваю память')
+}
+
+const debouncedEventHandler = _.debounce(inputEventHandler, 500);
+
+
+meatPriceRef.addEventListener('input', debouncedEventHandler)

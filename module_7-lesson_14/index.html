@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/simplelightbox/2.10.4/simple-lightbox.css" integrity="sha512-wUG98Ya5KD5G+pjT7hMxttwyIMjCkbCTii0Rpyrfz7vf9ZE2A8AFyp4BQGT9ejUxOlsWtnklUXCNPR10YZA/Og==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="./styles.css">
+    
+    <title>GoIt JavaScript</title>
+  </head>
+  
+  <body>
+    <h1>Lesson 14. Debounce. Throttle.</h1>
+
+    <section>
+      <header>
+        <h2>Tasks</h2>
+      </header>
+      <ol class="todo">
+        <li class="done">Підключити бібліотеку lodash через скрипт </li>
+        <li class="done">Показати як працює тротл на основі події **resize** та **scroll**</li>
+        <li class="done">Показати як працює дебаунс на основі роботи з інпутом</li>
+        <li>Написати форму логіна та паролья де буде відбуватися валідація полів на довжину після закінчення введення тексту.</li>
+      </ol>
+    </section>
+
+    <section>
+      <div>
+        <h2>Подія scroll</h2>
+        <span>кількість викликів:</span>
+        <b class="scroll-amount">0</b>
+      </div>
+
+      <div>
+        <h2>Подія resize</h2>
+        <span>кількість викликів:</span>
+        <b class="resize-amount">0</b>
+      </div>
+
+    </section>
+
+    <section>
+      <form>
+        <input name="name" id="userName" >
+        <span class="validate-message"></span>
+      </form>
+    </section>
+
+    <div class="gallery">
+      <a href="https://cdn.pixabay.com/photo/2022/11/07/00/27/grasshopper-7575278_1280.jpg">
+        <img src="https://cdn.pixabay.com/photo/2022/11/07/00/27/grasshopper-7575278_1280.jpg" alt="" title=""/>
+      </a>
+      <a href="https://cdn.pixabay.com/photo/2022/10/22/18/10/quince-7539818_1280.jpg">
+        <img src="https://cdn.pixabay.com/photo/2022/10/22/18/10/quince-7539818_1280.jpg" alt="" title="Beautiful Image"/>
+      </a>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/simplelightbox/2.10.4/simple-lightbox.min.js" integrity="sha512-IKDNPsyNuvwDr8D2nIcJVgNFuj3XXdV0jJ5S6E+nYwl5RiLxrd51TnDJDN1lQJrVdF4K849Lizr12ZCZV81MoA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="https://cdn.jsdelivr.net/npm/lodash@4.17.21/lodash.min.js"></script>
+    <script src="./index.js"></script>
+  </body>
+</html>

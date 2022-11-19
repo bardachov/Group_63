@@ -39,6 +39,7 @@
               <input type="number" id="price" name="price" value="50">
               <label for="quantity">Кількість<span class="amount">1</span>кг </label>
               <input type="range" id="quantity" name="quantity" value="1" min="1", max="200">
+              <span>Кількість запитів на сервер: <span class="server-amount">0</span> </span><br>
           </form>
         </div>
       </div>
@@ -100,7 +101,8 @@
     <div class="image-modal">
     </div>
   </div>
-
+  
+  <script src="https://cdn.jsdelivr.net/npm/lodash@4.17.21/lodash.min.js"></script>
   <script src="./index.js"></script>
 </body>
 </html>
