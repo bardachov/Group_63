@@ -1,4 +1,4 @@
-var lightbox = new SimpleLightbox('.gallery a', { /* options */ });
+
 
 /**
  * debounce - викликає функцію коли пройшло N кіклькість мілісекнд після подіїї.
@@ -49,22 +49,57 @@ userNameRef.addEventListener('input', debouncedUserNameHandler)
 
 
 
+// var lightbox = new SimpleLightbox('.gallery a', { /* options */ });
 
-
-function onGalleryClick(evt) {
+// function closeModalOnEscapeClick(evt) {
+//   console.log(instance)
+//   console.log(this)
   
-  function closeModalOnEscapeClick(evt) {
-    if (evt.key === "Escape") {
-      instance.close();
-    }
-  }
+//   if (evt.key === "Escape") {
+//     instance.close();
+//   }
+// }
 
-  const instance = basicLightbox.create(
-    `<img src="${evt.target.dataset.source}">`,
-    {
-      onShow: () => gallery.addEventListener("keydown", closeModalOnEscapeClick),
-      onClose: () => gallery.removeEventListener("keydown", closeModalOnEscapeClick),
+
+// Варіант 1
+const initBasicGallery = () => {
+  let instance;
+  const basicLightBox = document.querySelector('.basic-ligh-box');
+
+  basicLightBox.addEventListener('click', e => {
+    instance = basicLightbox.create(`<img src="${e.target.src}">`);
+    instance.show()
+  });
+
+  document.addEventListener('keydown', e => {
+  
+    if (!instance) return
+    
+    if (e.key === "Escape") {
+      instance.close();
+      instance = undefined
     }
-  );
+  })
 
 }
+
+initBasicGallery()
+
+
+// Варіант 2. Так теж буде працювати
+function closeModalOnEscapeClick(evt) {
+  if (evt.key === "Escape") {
+    instance.close();
+  }
+}
+
+const basicLightBox = document.querySelector('.basic-ligh-box');
+basicLightBox.addEventListener('click', e => {
+  
+  instance = basicLightbox.create(`<img src="${e.target.src}">`, {
+    onShow: () => document.addEventListener("keydown", closeModalOnEscapeClick),
+    onClose: () => document.removeEventListener("keydown", closeModalOnEscapeClick),
+  });
+
+  instance.show()
+});
