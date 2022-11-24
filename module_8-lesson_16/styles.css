@@ -1,0 +1,22 @@
+* {
+  box-sizing: border-box;
+}
+
+
+.todo-container {
+  width: 600px;
+}
+
+
+.newtask-box {
+  margin-bottom: 25px;
+}
+
+#newTask {
+  width: 100%;
+  height: 35px;
+}
+
+.todo-list .done {
+  text-decoration: line-through;
+}

@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="./styles.css">
+  <title>ToDo</title>
+</head>
+<body>
+  <main>
+    <section class="todo-container">
+      <div class="newtask-box">
+        <label for="newTask">Додайте нову задачу</label>
+        <input type="text" id="newTask" placeholder="введіть задачу і натисніть ентер">
+      </div>
+        
+      <fieldset>
+        <legend>Список задач</legend>
+        <ul class="todo-list"></ul>
+      </fieldset>
+
+      <input type="button" value="Очистити" id="clearList">
+    </section>
+  </main>
+
+  <script src="./index.js"></script>
+</body>
+</html>
