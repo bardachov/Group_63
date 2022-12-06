@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <link rel="stylesheet" href="./styles.css">
+  <title>Search News</title>
+</head>
+<body>
+  <main>
+    <section>
+      <header>
+        <h1>**Написати додаток пошуку новин**</h1>
+        <ul>
+          <li>Користувач бачить на екрані інпут ⇒ </li>
+          <li>вводить в нього запит ⇒ </li>
+          <li>отримує на екрані підбірку новин по його запиту.</li>
+          <li>Можна використовувати цей резурс для запитів - https://newsapi.org</li>
+        </ul>
+      </header>
+    </section>
+    
+    <br>
+    <section>
+      <label for="searchNews">введіть запит пошуку новин</label>
+      <input name="searchNews" id="searchNewsField" />
+      <button id="searchCtr">Пошук</button>
+    </section>
+
+    <section id="articles"></section>
+  </main>
+
+  <script src="https://cdn.jsdelivr.net/npm/axios@1.1.2/dist/axios.min.js"></script>
+  <script src="./index.js"></script>
+</body>
+</html>
