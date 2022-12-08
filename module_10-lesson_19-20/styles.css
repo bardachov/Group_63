@@ -1,0 +1,31 @@
+section#articles {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  margin: 20px 15px;
+
+}
+
+article.news {
+  border-radius: 4px;
+  border: 1px solid rgb(117, 110, 110);
+  margin-right: 15px;
+  margin-bottom: 10px;
+  padding: 10px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+}
+
+article.news img {
+  max-width: 300px;
+}
+
+.news-link {
+  text-decoration: none;
+  border-radius: 4px;
+  background: chocolate;
+  color: wheat;
+  padding: 10px 25px;
+  margin-top: 10px;
+}
