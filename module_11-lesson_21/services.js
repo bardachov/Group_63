@@ -19,7 +19,7 @@ class ToDo {
     return this.API.patch(`/${taskId}`, task).then(res => res.data)
   }
   deleteTask (taskId) {
-    return this.API.delete(`/${taskId}`).then(res => res.data)
+    return this.API.delete(`/${taskId}`).then(res => res.status === 200 ? taskId : null)
   }
 }
 

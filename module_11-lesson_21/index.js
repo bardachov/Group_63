@@ -1,156 +1,85 @@
-/**
- * Завдання із зірочкой: Переписати все на клас
- */
+const refs = {
+  taskInput: document.getElementById('newTask'),
+  tasksList: document.querySelector('.todo-list'),
+  clearBtn: document.querySelector('#clearList')
+}
 
-const taskInputRef = document.querySelector('#newTask');
-const listRef = document.querySelector('.todo-list');
-const clearBtnRef = document.querySelector('#clearList');
-const submitBtnRef = document.querySelector('#submit');
 
-let currentId = undefined;
+refs.taskInput.addEventListener('keyup', e => {
+  if(e.key !== "Enter") return
+  
+  const taskToUpdate = e.target.dataset.updatingTask;
+  const task = {
+    value: e.target.value,
+  };
 
-submitBtnRef.addEventListener('click', e => {
-  e.preventDefault();
-
-  if (currentId) {
+  if (taskToUpdate) {
     
-    todo.updateTask(currentId, {
-      value: taskInputRef.value
-    }).then(task => {
-      const taskEl = createTaskElement(task);
-      const oldEl = listRef.querySelector(`li[data-taskId=${task.id}]`);
-      debugger
-      console.log(oldEl)
+    todo.updateTask(taskToUpdate, task)
+    .then(task => {
+      updateTaskElement(task)
+      delete e.target.dataset.updatingTask
     })
-
-    currentId = undefined
 
   } else {
-
-    todo.createTask({
-      value: taskInputRef.value,
-      state: 'pending'
-    })
-    .then(task => addTaskElement(task))
-
-  } 
-
-})
-
-taskInputRef.addEventListener('keydown', e => {
-  if(e.key !== 'Enter') return
-
-  if (currentId) {
     
-    todo.updateTask(currentId, {
-      value: e.target.value
-    }).then(task => {
-      const taskEl = createTaskElement(task);
-      const oldEl = listRef.querySelector(`li[data-taskId=${task.id}]`);
-      debugger
-      console.log(oldEl)
-    })
-
-    currentId = undefined
-
-  } else {
-
-    todo.createTask({
-      value: e.target.value,
-      state: 'pending'
-    })
+    todo.createTask({...task, state: 'pending'})
     .then(task => addTaskElement(task))
 
-  } 
+  }
 
-  
-
-  // let data = JSON.parse(localStorage.getItem('todoList'));
-
-  // if (!data) {
-  //   data = []
-  // }
-
-  // data.push({
-  //   value: e.target.value,
-  //   state: 'pending'
-  // });
-
-  // const jsonData = JSON.stringify(data);
-  
-
-  // localStorage.setItem('todoList', jsonData);
-  e.target.value = '';
-
-  // updateToDoList()
+  e.target.value = ''
 });
 
-clearBtnRef.addEventListener('click', e => {
-  localStorage.setItem('todoList', '[]');
-  updateToDoList()
-});
+refs.tasksList.addEventListener('click', e => {
+  const targetClass = e.target.className;
+  const taskId = e.target.dataset.taskid;
 
-listRef.addEventListener('click', e => {
-  if(e.target.className === 'deleteTask') {
-    todo.deleteTask(e.target.dataset.taskid).then(task => {
-      todo.getAllTask().then(data => {
-        updateToDoList(data)
+  switch(targetClass) {
+    case 'editTask': {
+      todo.getTaskById(taskId).then(task => {
+        refs.taskInput.value = task.value;
+        refs.taskInput.dataset.updatingTask = taskId;
       });
-    })
-  }
-
-  if(e.target.className === 'confirmTask') {
-    completeTask(e.target.dataset.taskid)
-  }
-
-  if(e.target.className === 'editTask') {
-    todo.getTaskById(e.target.dataset.taskid).then(task => {
-      taskInputRef.value = task.value;
-      currentId = task.id;
-    })
+      
+      break;
+    }
+    case 'deleteTask': {
+      todo.deleteTask(taskId).then(taskId => {
+        refs.tasksList
+        .querySelector(`li[data-taskid="${taskId}"]`)
+        .remove();
+      });
+      
+      break;
+    }
+    case 'confirmTask': {
+      todo.updateTask(taskId, {state: 'done'})
+      .then(task => updateTaskElement(task));
+      
+      break;
+    } 
+    default: {
+      console.count('no handler')
+    }
   }
 })
-
-
-
-const deleteTask = (id) => {
-  
-  const data = JSON.parse(localStorage.getItem('todoList'));
-  data.splice(id, 1);
-  
-  localStorage.setItem('todoList', JSON.stringify(data))
-  updateToDoList()
-}
-
-const completeTask = (id) => {
-  const data = JSON.parse(localStorage.getItem('todoList'));
-
-  data[id] = {
-    ...data[id],
-    state: 'done'
-  }
-
-  localStorage.setItem('todoList', JSON.stringify(data))
-  updateToDoList()
-
-}
-
-
-
-
-
-
-
-
 
 const updateToDoList = (todoList) => {
-  listRef.innerHTML = '';
-  listRef.insertAdjacentHTML('beforeend', todoList.map(task => createTaskElement(task)).join(''))
+  refs.tasksList.innerHTML = '';
+  refs.tasksList.insertAdjacentHTML('beforeend', todoList.map(task => createTaskElement(task)).join(''))
 }
 
 const addTaskElement = task => {
   const taskEl = createTaskElement(task)
-  listRef.insertAdjacentHTML('beforeend', taskEl)
+  refs.tasksList.insertAdjacentHTML('beforeend', taskEl)
+}
+
+const updateTaskElement = (task) => {
+  const taskEl = refs.tasksList.querySelector(`li[data-taskid="${task.id}"]`)
+  
+  taskEl.firstElementChild.textContent = task.value
+  taskEl.firstElementChild.className = task.state
 }
 
 const createTaskElement = task => {
@@ -166,8 +95,6 @@ const createTaskElement = task => {
 todo.getAllTask().then(data => {
   updateToDoList(data)
 });
-
-
 
 
 
