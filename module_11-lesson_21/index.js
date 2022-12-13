@@ -3,71 +3,9 @@ const refs = {
   tasksList: document.querySelector('.todo-list'),
   clearBtn: document.querySelector('#clearList')
 }
-
-
-refs.taskInput.addEventListener('keyup', e => {
-  if(e.key !== "Enter") return
-  
-  const taskToUpdate = e.target.dataset.updatingTask;
-  const task = {
-    value: e.target.value,
-  };
-
-  if (taskToUpdate) {
-    
-    todo.updateTask(taskToUpdate, task)
-    .then(task => {
-      updateTaskElement(task)
-      delete e.target.dataset.updatingTask
-    })
-
-  } else {
-    
-    todo.createTask({...task, state: 'pending'})
-    .then(task => addTaskElement(task))
-
-  }
-
-  e.target.value = ''
-});
-
-refs.tasksList.addEventListener('click', e => {
-  const targetClass = e.target.className;
-  const taskId = e.target.dataset.taskid;
-
-  switch(targetClass) {
-    case 'editTask': {
-      todo.getTaskById(taskId).then(task => {
-        refs.taskInput.value = task.value;
-        refs.taskInput.dataset.updatingTask = taskId;
-      });
-      
-      break;
-    }
-    case 'deleteTask': {
-      todo.deleteTask(taskId).then(taskId => {
-        refs.tasksList
-        .querySelector(`li[data-taskid="${taskId}"]`)
-        .remove();
-      });
-      
-      break;
-    }
-    case 'confirmTask': {
-      todo.updateTask(taskId, {state: 'done'})
-      .then(task => updateTaskElement(task));
-      
-      break;
-    } 
-    default: {
-      console.count('no handler')
-    }
-  }
-})
-
-const updateToDoList = (todoList) => {
+const updateToDoList = (tasksList) => {
   refs.tasksList.innerHTML = '';
-  refs.tasksList.insertAdjacentHTML('beforeend', todoList.map(task => createTaskElement(task)).join(''))
+  refs.tasksList.insertAdjacentHTML('beforeend', tasksList.map(task => createTaskElement(task)).join(''))
 }
 
 const addTaskElement = task => {
@@ -91,12 +29,86 @@ const createTaskElement = task => {
 </li>`
 }
 
-
 todo.getAllTask().then(data => {
   updateToDoList(data)
 });
 
+refs.taskInput.addEventListener('keyup', e => {
+  if(e.key !== "Enter") return
+  
+  if (todo.currentTaskID) {
+    
+    todo.updateTask(todo.currentTaskID, {
+      value: e.target.value,
+    })
+    .then(task => {
+      updateTaskElement(task)
+      todo.setCurrentTask(null)
+    })
 
+  } else {
+    
+    todo.createTask({
+      value: e.target.value, 
+      state: 'pending'
+    })
+    .then(task => addTaskElement(task))
+
+  }
+
+  e.target.value = ''
+});
+
+
+refs.tasksList.addEventListener('click', e => {
+  const task = new Task(e.target.dataset.taskid)
+
+  switch(e.target.className) {
+    case 'editTask': {
+      task.editTask();
+      break;
+    }
+    case 'deleteTask': {
+      task.deleteTask();
+      break;
+    }
+    case 'confirmTask': {
+      task.confirmTask();
+      break;
+    } 
+    default: {
+      console.count('no handler')
+    }
+  }
+})
+
+class Task {
+  constructor(id) {
+    this.id = id
+  }
+
+  editTask() {
+    todo.getTaskById(this.id)
+    .then(task => {
+      refs.taskInput.value = task.value;
+      todo.setCurrentTask(this.id)
+    })
+  }
+
+  deleteTask() {
+    todo.deleteTask(this.id)
+    .then(taskId => {
+      refs.tasksList
+      .querySelector(`li[data-taskid="${taskId}"]`)
+      .remove();
+    })
+  }
+
+  confirmTask() {
+    todo.updateTask(this.id, {state: 'done'})
+      .then(task => updateTaskElement(task))
+  }
+}
 
 
 

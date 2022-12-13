@@ -5,7 +5,9 @@ class ToDo {
       headers: {}
     })
   }
-
+  setCurrentTask (id) {
+    this.currentTaskID = id // keep current task id for editing
+  }
   getAllTask () {
     return this.API.get().then(res => res.data)
   }
