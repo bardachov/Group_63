@@ -3,6 +3,7 @@ const refs = {
   tasksList: document.querySelector('.todo-list'),
   clearBtn: document.querySelector('#clearList')
 }
+
 const updateToDoList = (tasksList) => {
   refs.tasksList.innerHTML = '';
   refs.tasksList.insertAdjacentHTML('beforeend', tasksList.map(task => createTaskElement(task)).join(''))
@@ -28,10 +29,6 @@ const createTaskElement = task => {
   <input type="button" class="editTask" data-taskId=${task.id} value="редагувати">
 </li>`
 }
-
-todo.getAllTask().then(data => {
-  updateToDoList(data)
-});
 
 refs.taskInput.addEventListener('keyup', e => {
   if(e.key !== "Enter") return
@@ -83,16 +80,16 @@ refs.tasksList.addEventListener('click', e => {
 })
 
 class Task {
+  
   constructor(id) {
     this.id = id
   }
 
-  editTask() {
-    todo.getTaskById(this.id)
-    .then(task => {
-      refs.taskInput.value = task.value;
-      todo.setCurrentTask(this.id)
-    })
+  async editTask() {
+    const task = await todo.getTaskById(this.id)
+    
+    refs.taskInput.value = task.value;
+    todo.setCurrentTask(this.id)
   }
 
   deleteTask() {
@@ -110,7 +107,9 @@ class Task {
   }
 }
 
-
+todo.getAllTask().then(data => {
+  updateToDoList(data)
+});
 
 
 
